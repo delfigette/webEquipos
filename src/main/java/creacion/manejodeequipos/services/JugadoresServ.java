@@ -17,8 +17,6 @@ public class JugadoresServ {
   }
 
   public Jugador agregarJugador(Jugador jugador){
-    jugador.setNumero(10);
-    jugador.setNombre("Messi");
     return repo.save(jugador);
   }
 
