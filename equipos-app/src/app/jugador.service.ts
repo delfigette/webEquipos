@@ -14,7 +14,7 @@ export class JugadorService{
     constructor(private http: HttpClient) { }
     
     public getJugadores(): Observable<Jugador[]> {
-        return this.http.get<Jugador[]>('${this.apiServerUrl}/jugador/all')
+        return this.http.get<Jugador[]>(`${this.apiServerUrl}/jugador/all`)
     }
 
     public addJugadores(jugador: Jugador): Observable<Jugador> {
