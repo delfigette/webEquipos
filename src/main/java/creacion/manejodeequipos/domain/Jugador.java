@@ -18,10 +18,6 @@ public class Jugador extends PersistentEntity implements Serializable {
     this.numero = num;
   }
 
-  public int getId() {
-    return this.id;
-  }
-
   public String getNombre() {
     return nombre;
   }
