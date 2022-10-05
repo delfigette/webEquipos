@@ -1,12 +1,12 @@
 package creacion.manejodeequipos.domain;
-import creacion.manejodeequipos.helpers.persistentEntity;
+import creacion.manejodeequipos.helpers.PersistentEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.io.Serializable;
 
 @Entity
-public class Jugador extends persistentEntity implements Serializable {
+public class Jugador extends PersistentEntity implements Serializable {
   @Column
   private String nombre;
   private int numero;
@@ -22,16 +22,20 @@ public class Jugador extends persistentEntity implements Serializable {
     return this.id;
   }
 
-  public void setId(int id) {
-    this.id = id;
-  }
-
   public String getNombre() {
     return nombre;
   }
 
   public void setNombre(String nombre) {
     this.nombre = nombre;
+  }
+
+  public Integer getNumero() {
+    return numero;
+  }
+
+  public void setNumero(Integer num) {
+    this.numero = num;
   }
 
   @Override

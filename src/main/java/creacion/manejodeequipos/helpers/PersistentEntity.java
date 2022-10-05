@@ -3,11 +3,11 @@ package creacion.manejodeequipos.helpers;
 import javax.persistence.*;
 
 @MappedSuperclass
-public class persistentEntity {
+public class PersistentEntity {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue
   @Column(nullable = false)
-  public int id;
+  public Integer id;
 }
 
 
