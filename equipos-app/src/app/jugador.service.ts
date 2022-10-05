@@ -17,14 +17,14 @@ export class JugadorService{
     }
 
     public addJugadores(jugador: Jugador): Observable<Jugador> {
-        return this.http.post<Jugador>('${this.apiServerUrl}/jugador/add', jugador)
+        return this.http.post<Jugador>(`${this.apiServerUrl}/jugador/add`, jugador)
     }
 
     public updateJugadores(jugador: Jugador): Observable<Jugador> {
-        return this.http.put<Jugador>('${this.apiServerUrl}/jugador/update', jugador)
+        return this.http.put<Jugador>(`${this.apiServerUrl}/jugador/update`, jugador)
     }
 
     public deleteJugadores(jugadorId: number): Observable<void> {
-        return this.http.delete<void>('${this.apiServerUrl}/jugador/delete/${jugaddorId}')
+        return this.http.delete<void>(`${this.apiServerUrl}/jugador/delete/${jugadorId}`)
     }
 }
