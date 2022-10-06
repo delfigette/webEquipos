@@ -41,7 +41,7 @@ public class Jugador extends PersistentEntity implements Serializable {
       this.numero = num;
     }
     else{
-      //TODO throw exception
+      // throw exception
     }
   }
 
@@ -53,14 +53,6 @@ public class Jugador extends PersistentEntity implements Serializable {
     this.posicion = pos;
   }
 
-  @Override
-  public String toString() {
-    return "Jugador{" +
-        "id=" + id +
-        ", nombre='" + nombre + '\'' +
-        ", numero='" + numero + '\'' +
-        '}';
-  }
 }
 
 
