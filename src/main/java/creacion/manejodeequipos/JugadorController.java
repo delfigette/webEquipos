@@ -42,11 +42,32 @@ public class JugadorController {
     return new ResponseEntity<>(jugadores, HttpStatus.OK);
   }
 
+  @GetMapping("/numeros")
+  public ResponseEntity<List<Integer>> getAllNumeros(){
+    List<Integer> numeros = jugadoresServ.numeroCamisetas();
+    return new ResponseEntity<>(numeros, HttpStatus.OK);
+  }
+
+
   @DeleteMapping("/delete/{id}")
-  public ResponseEntity<?> deleteJugador(@PathVariable("id") Integer id){
+  public ResponseEntity<Void> deleteJugador(@PathVariable("id") Integer id){
     jugadoresServ.eliminarJugador(id);
     return new ResponseEntity<>(HttpStatus.OK);
   }
+
+
+  @GetMapping("/filtrar/{numero}")
+  public ResponseEntity<List<Jugador>> getJugadorByNumero(@PathVariable("numero") Integer numero){
+    List<Jugador> jugadores = jugadoresServ.buscarJugadoresPorNumero(numero);
+    return new ResponseEntity<>(jugadores, HttpStatus.OK);
+  }
+
+  @GetMapping("/buscar/{nombre}")
+  public ResponseEntity<List<Jugador>> getJugadorByNombre(@PathVariable("nombre") String nombre){
+    List<Jugador> jugadores = jugadoresServ.buscarJugadoresPorNombre(nombre);
+    return new ResponseEntity<>(jugadores, HttpStatus.OK);
+  }
+
 
 
 }

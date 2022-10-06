@@ -1,44 +1,54 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-
 
 <!-- Navegador -->
 <nav class="navbar navbar-default" role="navigation" >
-  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-nav" id="boton">
-      <li class="active"><a href="#">Agregar Jugador</a></li>
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> 
+    <ul class="nav navbar-nav" id="boton" style="margin-top: 40px !important;">
+      <li class="active" >
+         <a (click)="popUp('add', undefined)">Agregar Jugador</a>
+      </li>
     </ul>
     <div class="col-sm-3 col-md-3">
         <form class="navbar-form" role="search">
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Buscar integrante" name="q">
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-            </div>
+            <input type="search" (ngModelChange)="buscarJugadorPorNombre(key.value)" #key="ngModel" ngModel
+            name="key" id="searchName" class="form-control mr-sm-2" placeholder="Buscar por nombre de jugador..." required>
         </div>
         </form>
+        <form class="navbar-form" role="search">
+         <label for="seleccionado" style="font-size: 20px; color: white;">Buscar por número de jugador:</label>
+            <div style="margin-left: 30px !important;">
+            <button *ngFor="let item of numeros" type="submit" 
+               class="btn btn-primary"
+               style="margin: 2px !important; border-color: #778c43 !important;" 
+               (click)="buscarJugadorPorNumero(item)">{{item}}</button>
+               <button type="submit" 
+               class="btn btn-primary"
+               style="margin: 2px !important; border-color: #778c43 !important; background-color: #767676 !important; padding-left: 15px !important; padding-right: 15px !important;" 
+               (click)="buscarJugadorPorNumero(999)">All</button>
+            </div>
+         </form>
     </div>
   </div>
 </nav>
 
 <!-- Jugadores -->
 <section class="our-webcoderskull padding-lg">
-  <div class="container">
+  <div class="container" id="containerPrincipal">
     <div class="row">
       <div *ngFor="let jugador of jugadores" class="col-12 col-md-6 col-lg-3">
-          <div class="cnt-block equal-hight" style="height: 350px;">
+          <div class="cnt-block equal-hight" style="height: 400px;">
             <figure><img src="http://www.webcoderskull.com/img/team4.png" class="img-responsive" alt=""></figure>
-            <h3><a href="http://www.webcoderskull.com/">{{jugador?.nombre}}</a></h3>
+            <h3>{{jugador?.nombre}}</h3>
+            <h4>{{jugador?.numero}}</h4>
             <p>{{jugador?.posicion}}</p>
-             <div class="d-flex gap-2 pt-4">
-                <button type="button" class="btn btn-soft-primary btn-sm w-50"><i class="fa fa-pencil"></i>  Editar</button>
-                <button type="button" style="background-color: brown !important; border-color: brown;" class="btn btn-primary btn-sm w-50"><i class="fa fa-times" style="background-color: brown !important;"></i>   Eliminar</button>
+             <div class="d-flex gap-2 pt-4" style="display: block  !important ;">
+                <a   (click)="popUp('edit', jugador)" 
+                     style="background-color: white !important; border-color: grey;"
+                     class="btn btn-primary tooltips" 
+                     data-placement="top" 
+                     data-original-title="Edit">
+                  <i class="fa fa-pencil"></i> 
+                </a>
             </div>
           </div>
         </div>
@@ -46,10 +56,99 @@
   </div>
 </section>
 
-<div class="col-lg-12 col-md-12 col-x1-12">
+<div *ngIf="jugadores?.length == 0" class="col-lg-12 col-md-12 col-x1-12">
   <div class="aler alert-info" role="alert">
     <h4 class="alert-heading"> No hay ningún jugador cargado aún</h4>  
   </div>  
-  
-
 </div>  
+
+<!-- Add Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="agregarJugador">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+          <h5 class="modal-title">Agregar jugador no registrado</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+       </div>
+       <div class="modal-body">
+          <form #agregarForm="ngForm" (ngSubmit)="onAgregar(agregarForm)">
+          <div class="form-group">
+             <label for="nombre">Nombre y apellido</label>
+             <input type="text" ngModel name="nombre" class="form-control" id="name" placeholder="Nombre y apellido" required>
+          </div>
+          <div class="form-group">
+             <label for="posicion">Posicion</label>
+             <input type="email" ngModel name="posicion" class="form-control" id="posicion" placeholder="Posicion" required>
+          </div>
+          <div class="form-group">
+             <label for="numero">Numero</label>
+             <input type="text" ngModel name="numero" class="form-control" id="numero" placeholder="Numero" required>
+          </div>
+          <div class="modal-footer">
+             <button type="button" id="cerrar-agregar" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+             <button [disabled]="agregarForm.invalid" type="submit" class="btn btn-primary" >Guardar</button>   
+         </div>
+          </form>
+       </div>
+    </div>
+  </div>
+  </div>
+
+<!-- Edit Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="editarJugador" >
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" >Editar jugador {{jugadorEditado?.nombre}}</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+           </button>
+        </div>
+        <div class="modal-body">
+           <form #editarForm="ngForm">
+            <div class="form-group">
+               <label for="nombre">Nombre y apellido</label>
+               <input type="text" ngModel="{{jugadorEditado?.nombre}}" name="nombre" class="form-control" id="name" placeholder="Nombre y apellido" required>
+            </div>
+            <input type="hidden" ngModel="{{jugadorEditado?.id}}" name="id" class="form-control" id="id">
+            <div class="form-group">
+               <label for="posicion">Posicion</label>
+               <input type="posicion" ngModel="{{jugadorEditado?.posicion}}" name="posicion" class="form-control" id="posicion" placeholder="Posicion" required>
+            </div>
+            <div class="form-group">
+               <label for="numero">Numero</label>
+               <input type="text" ngModel="{{jugadorEditado?.numero}}" name="numero" class="form-control" id="numero" placeholder="Numero" required>
+            </div>
+              <div class="modal-footer">
+                 <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                 <button (click)="onEditar(editarForm.value)" data-dismiss="modal" class="btn btn-primary" >Guardar</button>   
+               </div>
+           </form>
+        </div>
+     </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="eliminarJugador" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" id="deleteModelLabel">Eliminar jugador</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+           </button>
+        </div>
+        <div class="modal-body">
+           <p>¿Está seguro que desea eliminar a {{jugadorPorEliminar?.nombre}} del equipo?</p>
+           <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+              <button (click)="onEliminar(jugadorPorEliminar?.id)" class="btn btn-danger" data-dismiss="modal">Sí</button>
+           </div>
+        </div>
+     </div>
+  </div>
+</div>
+

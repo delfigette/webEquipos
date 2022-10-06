@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class JugadoresServ {
@@ -24,12 +25,24 @@ public class JugadoresServ {
     return repo.findAll();
   }
 
+  public List<Integer> numeroCamisetas(){
+    return repo.findAll().stream().map(Jugador::getNumero).distinct().collect(Collectors.toList());
+  }
+
   public Jugador actualizarJugador(Jugador jugador){
     return repo.save(jugador);
   }
 
   public Jugador buscarJugador(Integer id){
     return repo.findJugadorById(id);
+  }
+
+  public List<Jugador> buscarJugadoresPorNumero(Integer numero){
+    return repo.findJugadoressByNumero(numero);
+  }
+
+  public List<Jugador> buscarJugadoresPorNombre(String nombre){
+    return repo.findJugadoresByNombre(nombre);
   }
 
   public void eliminarJugador(Integer id){

@@ -125,12 +125,16 @@ ul{
 }
 
 .navbar-nav>.active>a{
-    background-color: #3b5110 !important;
+    background-color: #006414 !important;
     border-radius: 2% !important;
     color: white !important;
 }
 
-#boton >.active>a:hover{ 
-    background-color:#203500 !important;
+.navbar-nav >.active>a:hover{ 
+    background-color:#006414 !important;
+ }
+
+ button{
+    background-color:#006414 !important;
  }
 
