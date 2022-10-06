@@ -3,11 +3,13 @@ import creacion.manejodeequipos.helpers.PersistentEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
+import java.lang.annotation.Repeatable;
 
 @Entity
 public class Jugador extends PersistentEntity implements Serializable {
-  @Column
+  @Column(unique = true)
   private String nombre;
   @Column
   private int numero;
@@ -35,7 +37,12 @@ public class Jugador extends PersistentEntity implements Serializable {
   }
 
   public void setNumero(Integer num) {
-    this.numero = num;
+    if(num >= 1 && num != null){
+      this.numero = num;
+    }
+    else{
+      //TODO throw exception
+    }
   }
 
   public String getPosicion() {

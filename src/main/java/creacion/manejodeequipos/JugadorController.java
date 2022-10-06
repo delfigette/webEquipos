@@ -21,7 +21,6 @@ public class JugadorController {
   public ResponseEntity<Jugador> addJugador(@RequestBody Jugador jugador){
     Jugador nuevoJugador = jugadoresServ.agregarJugador(jugador);
     return new ResponseEntity<>(nuevoJugador, HttpStatus.CREATED);
-
   }
 
   @GetMapping("/find/{id}")

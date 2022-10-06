@@ -3,6 +3,7 @@ import { Jugador } from './jugador';
 import { JugadorService } from './jugador.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { ErrorNotification } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -101,32 +102,52 @@ export class AppComponent implements OnInit{
     boton.click();
   }
 
+  public verificarValidez(jugador: Jugador): boolean{
+    return jugador.nombre !== undefined && jugador.nombre !== null && jugador.numero !== undefined && jugador.numero !== null &&  jugador.posicion !== undefined && jugador.posicion !== null && !isNaN(jugador.numero ) && jugador.numero >= 1 
+  }
+
+  public nombreYaExiste(jugador: Jugador): boolean{
+    this.buscarJugadorPorNombre(jugador.nombre);
+    return this.jugadores?.length === 0;
+  }
 
   public onAgregar(agregarForm: NgForm): void{
     document.getElementById('cerrar-agregar')?.click();
-   this.jugadorService.addJugadores(agregarForm.value).subscribe(
-    (response: Jugador) => {
-      console.log(response);
-      this.getJugadores();
-      agregarForm.reset();
-    },
-    (error: HttpErrorResponse) => {
-      alert(error.message);
-      agregarForm.reset();
+    if(this.verificarValidez(agregarForm.value) && !this.nombreYaExiste(agregarForm.value.nombre) )
+    {
+      this.jugadorService.addJugadores(agregarForm.value).subscribe(
+        (response: Jugador) => {
+          console.log(response);
+          this.getJugadores();
+          agregarForm.reset();
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+          agregarForm.reset();
+        }
+       );
     }
-   ); 
+    else{
+        agregarForm.reset();
+        alert("Ya existe un jugador con ese nombre");
+          
+    }
+   
   }
 
+  
   public onEditar(jugador: Jugador): void{
-   this.jugadorService.updateJugadores(jugador).subscribe(
-    (response: Jugador) => {
-      console.log(response);
-      this.getJugadores();
-    },
-    (error: HttpErrorResponse) => {
-      alert(error.message);
-    }
-   ); 
+   if(this.verificarValidez(jugador)){
+     this.jugadorService.updateJugadores(jugador).subscribe(
+       (response: Jugador) => {
+         console.log(response);
+         this.getJugadores();
+       },
+       (error: HttpErrorResponse) => {
+         alert(error.message);
+       }
+     ); 
+   }
   }
 
   public onEliminar(jugadorId: number| undefined): void{

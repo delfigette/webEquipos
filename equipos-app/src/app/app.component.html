@@ -2,7 +2,7 @@
 <!-- Navegador -->
 <nav class="navbar navbar-default" role="navigation" >
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> 
-    <ul class="nav navbar-nav" id="boton" style="margin-top: 40px !important;">
+    <ul class="nav navbar-nav" id="boton" style="margin-top: 10px !important;">
       <li class="active" >
          <a (click)="popUp('add', undefined)">Agregar Jugador</a>
       </li>
@@ -14,20 +14,20 @@
             name="key" id="searchName" class="form-control mr-sm-2" placeholder="Buscar por nombre de jugador..." required>
         </div>
         </form>
-        <form class="navbar-form" role="search">
-         <label for="seleccionado" style="font-size: 20px; color: white;">Buscar por número de jugador:</label>
-            <div style="margin-left: 30px !important;">
-            <button *ngFor="let item of numeros" type="submit" 
-               class="btn btn-primary"
-               style="margin: 2px !important; border-color: #778c43 !important;" 
-               (click)="buscarJugadorPorNumero(item)">{{item}}</button>
-               <button type="submit" 
-               class="btn btn-primary"
-               style="margin: 2px !important; border-color: #778c43 !important; background-color: #767676 !important; padding-left: 15px !important; padding-right: 15px !important;" 
-               (click)="buscarJugadorPorNumero(999)">All</button>
-            </div>
-         </form>
     </div>
+    <div>
+      <label for="seleccionado" style="font-size: 20px; color: white;">Buscar por número de jugador:</label>
+          <div style="margin-left: 30px !important;">
+          <button *ngFor="let item of numeros" type="submit" 
+             class="btn btn-primary"
+             style="margin: 2px !important; border-color: #778c43 !important;" 
+             (click)="buscarJugadorPorNumero(item)">{{item}}</button>
+             <button type="submit" 
+             class="btn btn-primary"
+             style="margin: 2px !important; border-color: #778c43 !important; background-color: #767676 !important; padding-left: 15px !important; padding-right: 15px !important;" 
+             (click)="buscarJugadorPorNumero(999)">All</button>
+          </div>
+       </div>
   </div>
 </nav>
 
@@ -80,11 +80,11 @@
           </div>
           <div class="form-group">
              <label for="posicion">Posicion</label>
-             <input type="email" ngModel name="posicion" class="form-control" id="posicion" placeholder="Posicion" required>
+             <input type="text" ngModel name="posicion" class="form-control" id="posicion" placeholder="Posicion" required>
           </div>
           <div class="form-group">
              <label for="numero">Numero</label>
-             <input type="text" ngModel name="numero" class="form-control" id="numero" placeholder="Numero" required>
+             <input type="number" min="1" ngModel name="numero" class="form-control" id="numero" placeholder="Numero" required>
           </div>
           <div class="modal-footer">
              <button type="button" id="cerrar-agregar" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -115,11 +115,11 @@
             <input type="hidden" ngModel="{{jugadorEditado?.id}}" name="id" class="form-control" id="id">
             <div class="form-group">
                <label for="posicion">Posicion</label>
-               <input type="posicion" ngModel="{{jugadorEditado?.posicion}}" name="posicion" class="form-control" id="posicion" placeholder="Posicion" required>
+               <input type="text" ngModel="{{jugadorEditado?.posicion}}" name="posicion" class="form-control" id="posicion" placeholder="Posicion" required>
             </div>
             <div class="form-group">
                <label for="numero">Numero</label>
-               <input type="text" ngModel="{{jugadorEditado?.numero}}" name="numero" class="form-control" id="numero" placeholder="Numero" required>
+               <input type="number" ngModel="{{jugadorEditado?.numero}}" name="numero" class="form-control" id="numero" placeholder="Numero" required>
             </div>
               <div class="modal-footer">
                  <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
