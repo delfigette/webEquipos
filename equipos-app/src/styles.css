@@ -121,6 +121,7 @@ ul{
 .navbar-default{
     background-color: #778c43 !important;
     border-color: #778c43 !important;
+    
 }
 
 .navbar-nav>.active>a{
@@ -129,6 +130,7 @@ ul{
     color: white !important;
 }
 
-.navbar-nav >.active>a:hover{ 
+#boton >.active>a:hover{ 
     background-color:#203500 !important;
  }
+
