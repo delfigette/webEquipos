@@ -4,6 +4,7 @@ import creacion.manejodeequipos.domain.Jugador;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface JugadoresRepo extends JpaRepository<Jugador, Integer> {
 
@@ -13,5 +14,5 @@ public interface JugadoresRepo extends JpaRepository<Jugador, Integer> {
 
   List<Jugador> findJugadoresByNombre(String nombre);
 
-  Jugador findJugadorById(Integer id); // TODO excepcion si no encuentra el id
+  Optional<Jugador> findJugadorById(Integer id);
 }

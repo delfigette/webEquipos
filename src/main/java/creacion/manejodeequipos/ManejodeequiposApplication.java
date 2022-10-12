@@ -16,7 +16,7 @@ public class ManejodeequiposApplication {
 		SpringApplication.run(ManejodeequiposApplication.class, args);
 	}
 
-	@Bean
+	@Bean // TODO probar borrarlo
 	public CorsFilter corsFilter() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowCredentials(true);
@@ -30,6 +30,5 @@ public class ManejodeequiposApplication {
 		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
 		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 		return new CorsFilter(urlBasedCorsConfigurationSource);
-
 	}
 }

@@ -1,5 +1,7 @@
 package creacion.manejodeequipos.services;
 
+import Exceptions.JugadorNotFoundExeption;
+import Exceptions.NombreAlreadyExistsExeption;
 import creacion.manejodeequipos.domain.Jugador;
 import creacion.manejodeequipos.repos.JugadoresRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,10 @@ public class JugadoresServ {
   }
 
   public Jugador agregarJugador(Jugador jugador){
-    return repo.save(jugador);
+    if(buscarJugadoresPorNombre(jugador.getNombre()).toArray().length == 0){return repo.save(jugador);}
+    else{
+      throw new NombreAlreadyExistsExeption("Ya existe un jugador con el nombre " + jugador.getNombre() );
+    }
   }
 
   public List<Jugador> EquipoCompleto(){
@@ -33,8 +38,9 @@ public class JugadoresServ {
     return repo.save(jugador);
   }
 
-  public Jugador buscarJugador(Integer id){
-    return repo.findJugadorById(id);
+  public Jugador buscarJugador(Integer id) throws Throwable {
+    return repo.findJugadorById(id)
+        .orElseThrow(() -> new JugadorNotFoundExeption("User by id " + id + " was not found"));
   }
 
   public List<Jugador> buscarJugadoresPorNumero(Integer numero){

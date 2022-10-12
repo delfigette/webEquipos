@@ -2,12 +2,12 @@
 <!-- Navegador -->
 <nav class="navbar navbar-default" role="navigation" >
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> 
-    <ul class="nav navbar-nav" id="boton" style="margin-top: 10px !important;">
+    <ul class="nav navbar-nav" id="boton" >
       <li class="active" >
          <a (click)="popUp('add', undefined)">Agregar Jugador</a>
       </li>
     </ul>
-    <div class="col-sm-3 col-md-3">
+    <div class="col-sm-3 col-md-3" >
         <form class="navbar-form" role="search">
         <div class="input-group">
             <input type="search" (ngModelChange)="buscarJugadorPorNombre(key.value)" #key="ngModel" ngModel
@@ -15,10 +15,9 @@
         </div>
         </form>
     </div>
-    <div>
-      <label for="seleccionado" style="font-size: 20px; color: white;">Buscar por número de jugador:</label>
-          <div style="margin-left: 30px !important;">
-          <button *ngFor="let item of numeros" type="submit" 
+    <div id="buscar-por-numero">
+      <label for="seleccionado" style="margin-right: 10px;">Buscar por número:</label>
+            <button *ngFor="let item of numeros" type="submit" 
              class="btn btn-primary"
              style="margin: 2px !important; border-color: #778c43 !important;" 
              (click)="buscarJugadorPorNumero(item)">{{item}}</button>
@@ -26,15 +25,53 @@
              class="btn btn-primary"
              style="margin: 2px !important; border-color: #778c43 !important; background-color: #767676 !important; padding-left: 15px !important; padding-right: 15px !important;" 
              (click)="buscarJugadorPorNumero(999)">All</button>
-          </div>
-       </div>
+   </div>
   </div>
 </nav>
 
+
 <!-- Jugadores -->
-<section class="our-webcoderskull padding-lg">
-  <div class="container" id="containerPrincipal">
-    <div class="row">
+<section *ngIf="jugadores?.length != 0" class="our-webcoderskull padding-lg">
+
+<!-- Reporte completo -->
+<div id="contenedor-tabla" >
+   <div>
+   <h2 id="titulo-reporte">Reporte completo</h2>
+   <table class="table">
+      <thead>
+      <tr>
+         <th scope="col">Nombre y apellido</th>
+         <th scope="col">Número</th>
+         <th scope="col">Posición</th>
+         <th scope="col">Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let jugador of jugadores" >
+         <td style="padding: 20px !important ;">{{jugador?.nombre}}</td>
+         <td style="padding: 20px !important ;">{{jugador?.numero}}</td>
+         <td style="padding: 20px !important ;">{{jugador?.posicion}}</td>
+         <td>
+            <div class="d-flex gap-2 pt-4" style="display: block  !important ; margin-top:-10px ">
+               <a   (click)="popUp('edit', jugador)" 
+                    style="background-color: white !important; border-color: grey;"
+                    class="btn btn-primary tooltips" 
+                    data-placement="top" 
+                    data-original-title="Edit">
+                 <i class="fa fa-pencil"></i> 
+               </a>
+           </div>
+         </td>
+      </tr>
+      </tbody>
+   </table>
+</div>
+</div>
+
+
+
+   <div class="container" id="containerPrincipal">
+    <div class="row" >
       <div *ngFor="let jugador of jugadores" class="col-12 col-md-6 col-lg-3">
           <div class="cnt-block equal-hight" style="height: 400px;">
             <figure><img src="http://www.webcoderskull.com/img/team4.png" class="img-responsive" alt=""></figure>
@@ -56,9 +93,9 @@
   </div>
 </section>
 
-<div *ngIf="jugadores?.length == 0" class="col-lg-12 col-md-12 col-x1-12">
-  <div class="aler alert-info" role="alert">
-    <h4 class="alert-heading"> No hay ningún jugador cargado aún</h4>  
+<div *ngIf="jugadores?.length == 0" style="padding: 10px;">
+  <div  role="alert">
+    <h4 class="alert-heading"> No hay ningún jugador cargado aún con ese nombre</h4>  
   </div>  
 </div>  
 
@@ -151,4 +188,3 @@
      </div>
   </div>
 </div>
-

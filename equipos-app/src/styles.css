@@ -138,3 +138,25 @@ ul{
     background-color:#006414 !important;
  }
 
+#contenedor-tabla{
+    padding: 50px;
+    padding-top: 0px;
+}
+
+#contenedor-tabla>div>table>td{
+    margin: 5px !important;
+}
+#contenedor-tabla>div{
+    padding: 10px;
+    background-color: white;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 20px;
+    border-color: #006414;
+}
+
+#buscar-por-numero{
+    padding-top: 7px;
+    font-size: 15px;
+    
+}

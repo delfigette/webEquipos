@@ -46,18 +46,19 @@ export class AppComponent implements OnInit{
   }
 
   public buscarJugadorPorNumero(numero:number):void{
-    this.jugadorService.jugadoresConNumero(numero).subscribe(
-      (response: Jugador[]) =>{
-        this.jugadores = response;
-      },
-      (error: HttpErrorResponse) =>  {
-        alert(error.message);
-      }
-      )
-      if(numero === 999){
-        this.getJugadores();
-      }
-          
+    if(numero >= 1 && numero < 35){
+      this.jugadorService.jugadoresConNumero(numero).subscribe(
+        (response: Jugador[]) =>{
+          this.jugadores = response;
+        },
+        (error: HttpErrorResponse) =>  {
+          alert(error.message);
+        }
+        )
+    }
+    else{
+      this.getJugadores();
+    }     
   }
 
   public buscarJugadorPorNombre(nombre:string):void{
@@ -103,34 +104,40 @@ export class AppComponent implements OnInit{
   }
 
   public verificarValidez(jugador: Jugador): boolean{
-    return jugador.nombre !== undefined && jugador.nombre !== null && jugador.numero !== undefined && jugador.numero !== null &&  jugador.posicion !== undefined && jugador.posicion !== null && !isNaN(jugador.numero ) && jugador.numero >= 1 
+    return jugador.nombre !== undefined 
+          && jugador.nombre !== null 
+          && jugador.numero !== undefined 
+          && jugador.nombre !== ""
+          && jugador.numero !== null 
+          &&  jugador.posicion !== undefined
+          && jugador.posicion !== null 
+          && !isNaN(jugador.numero) 
+          && jugador.numero >= 1 
+          && jugador.numero <= 35
   }
 
-  public nombreYaExiste(jugador: Jugador): boolean{
-    this.buscarJugadorPorNombre(jugador.nombre);
-    return this.jugadores?.length === 0;
-  }
+
 
   public onAgregar(agregarForm: NgForm): void{
     document.getElementById('cerrar-agregar')?.click();
-    if(this.verificarValidez(agregarForm.value) && !this.nombreYaExiste(agregarForm.value.nombre) )
+    if(this.verificarValidez(agregarForm.value) )
     {
       this.jugadorService.addJugadores(agregarForm.value).subscribe(
         (response: Jugador) => {
           console.log(response);
+          this.getNumeros();
           this.getJugadores();
           agregarForm.reset();
         },
         (error: HttpErrorResponse) => {
-          alert(error.message);
+          alert("Ya existe un jugador con ese nombre");
           agregarForm.reset();
         }
        );
     }
     else{
-        agregarForm.reset();
-        alert("Ya existe un jugador con ese nombre");
-          
+        this.getJugadores();
+        alert("Número no válido");
     }
    
   }
@@ -144,12 +151,17 @@ export class AppComponent implements OnInit{
          this.getJugadores();
        },
        (error: HttpErrorResponse) => {
-         alert(error.message);
+         alert("Ese nombre ya existe");
        }
      ); 
    }
+   else{
+    this.getJugadores();
+    alert("Complete todos los campos y verifique el el número esté entre 1 y 35")
+   }
   }
 
+ 
   public onEliminar(jugadorId: number| undefined): void{
     this.jugadorService.deleteJugadores(jugadorId).subscribe(
      (response: void) => {
