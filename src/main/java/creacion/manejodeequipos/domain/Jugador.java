@@ -37,12 +37,7 @@ public class Jugador extends PersistentEntity implements Serializable {
   }
 
   public void setNumero(Integer num) {
-    if(num >= 1 && num != null){
       this.numero = num;
-    }
-    else{
-      // throw exception
-    }
   }
 
   public String getPosicion() {
