@@ -30,10 +30,6 @@ export class JugadorService{
         return this.http.put<Jugador>(`${this.apiServerUrl}/jugador/update`, jugador)
     }
 
-    public deleteJugadores(jugadorId: number | undefined ): Observable<void> {
-        return this.http.delete<void>(`${this.apiServerUrl}/jugador/delete/${jugadorId}`)
-    }
-
     public jugadoresConNombre(nombre: string): Observable<Jugador[]>{
         return this.http.get<Jugador[]>(`${this.apiServerUrl}/jugador/buscar/${nombre}`)
     }

@@ -23,6 +23,22 @@ export class AppComponent implements OnInit{
     this.getNumeros();
   }
 
+  // privadas
+  private verificarValidez(jugador: Jugador): boolean{
+    return jugador.nombre !== undefined 
+          && jugador.nombre !== null 
+          && jugador.numero !== undefined 
+          && jugador.nombre !== ""
+          && jugador.numero !== null 
+          &&  jugador.posicion !== undefined
+          && jugador.posicion !== null 
+          && !isNaN(jugador.numero) 
+          && jugador.numero >= 1 
+          && jugador.numero <= 35
+  }
+
+  // Getters
+
   public getJugadores(): void{
     this.jugadorService.getJugadores().subscribe(
       (response: Jugador[]) =>{
@@ -80,6 +96,7 @@ export class AppComponent implements OnInit{
    }
  
 
+   // interacción
   public popUp(mode: String, jugador?: Jugador): void{
     const container = document.getElementById('containerPrincipal');
     const boton = document.createElement('button');
@@ -102,21 +119,6 @@ export class AppComponent implements OnInit{
     }
     boton.click();
   }
-
-  public verificarValidez(jugador: Jugador): boolean{
-    return jugador.nombre !== undefined 
-          && jugador.nombre !== null 
-          && jugador.numero !== undefined 
-          && jugador.nombre !== ""
-          && jugador.numero !== null 
-          &&  jugador.posicion !== undefined
-          && jugador.posicion !== null 
-          && !isNaN(jugador.numero) 
-          && jugador.numero >= 1 
-          && jugador.numero <= 35
-  }
-
-
 
   public onAgregar(agregarForm: NgForm): void{
     document.getElementById('cerrar-agregar')?.click();
@@ -142,13 +144,13 @@ export class AppComponent implements OnInit{
    
   }
 
-  
   public onEditar(jugador: Jugador): void{
    if(this.verificarValidez(jugador)){
      this.jugadorService.updateJugadores(jugador).subscribe(
        (response: Jugador) => {
          console.log(response);
          this.getJugadores();
+         this.getNumeros();
        },
        (error: HttpErrorResponse) => {
          alert("Ese nombre ya existe");
@@ -160,18 +162,5 @@ export class AppComponent implements OnInit{
     alert("Complete todos los campos y verifique el el número esté entre 1 y 35")
    }
   }
-
- 
-  public onEliminar(jugadorId: number| undefined): void{
-    this.jugadorService.deleteJugadores(jugadorId).subscribe(
-     (response: void) => {
-       console.log(response);
-       this.getJugadores(); 
-     },
-     (error: HttpErrorResponse) => {
-       alert(error.message);
-     }
-    ); 
-   }
 
 }

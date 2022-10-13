@@ -49,8 +49,9 @@ public class JugadorController {
           .status(HttpStatus.FORBIDDEN)
           .body("No existe un jugador con ese id " + jugador.getNumero());
     }
-
-    if(jugadoresServ.buscarJugadoresPorNombre(jugador.getNombre()).toArray().length <= 1 ){ // si el nombre es el mismo o si no hay ninguno así
+    /*jugadoresServ.buscarJugadoresPorNombre(jugador.getNombre()).toArray().length < 1*/
+    if(jugadoresServ.buscarJugador(jugador.id).getNombre().contains(jugador.getNombre()) ||
+        jugadoresServ.buscarJugadoresPorNombre(jugador.getNombre()).toArray().length == 0){ // si el nombre es el mismo o si no hay ninguno así
       Jugador updateableJugador = jugadoresServ.actualizarJugador(jugador);
       return new ResponseEntity<>(updateableJugador, HttpStatus.OK);
     }
@@ -71,13 +72,6 @@ public class JugadorController {
   public ResponseEntity<List<Integer>> getAllNumeros(){
     List<Integer> numeros = jugadoresServ.numeroCamisetas();
     return new ResponseEntity<>(numeros, HttpStatus.OK);
-  }
-
-
-  @DeleteMapping("/delete/{id}")
-  public ResponseEntity<Void> deleteJugador(@PathVariable("id") Integer id){
-    jugadoresServ.eliminarJugador(id);
-    return new ResponseEntity<>(HttpStatus.OK);
   }
 
 

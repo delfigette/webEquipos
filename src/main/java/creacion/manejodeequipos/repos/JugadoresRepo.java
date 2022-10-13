@@ -8,8 +8,6 @@ import java.util.Optional;
 
 public interface JugadoresRepo extends JpaRepository<Jugador, Integer> {
 
-  void deleteJugadorById(Integer id);
-
   List<Jugador> findJugadoressByNumero(Integer numero);
 
   List<Jugador> findJugadoresByNombre(String nombre);

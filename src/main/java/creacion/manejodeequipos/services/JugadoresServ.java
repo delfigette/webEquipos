@@ -51,8 +51,4 @@ public class JugadoresServ {
     return repo.findJugadoresByNombre(nombre);
   }
 
-  public void eliminarJugador(Integer id){
-    repo.deleteJugadorById(id);
-  }
-
 }
